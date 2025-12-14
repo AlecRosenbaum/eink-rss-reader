@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Home - E-Ink Reader{% endblock %}
+
+{% block content %}
+<div class="controls">
+    <form method="get" action="/" class="filter-row">
+        <label for="label">Label:</label>
+        <select name="label" id="label" onchange="this.form.submit()">
+            <option value="">All</option>
+            {% for l in labels %}
+            <option value="{{ l }}" {% if l == current_label %}selected{% endif %}>{{ l }}</option>
+            {% endfor %}
+        </select>
+
+        <label class="checkbox-label">
+            <input type="checkbox" name="hide_read" value="true"
+                   {% if hide_read %}checked{% endif %}
+                   onchange="this.form.submit()">
+            Hide read
+        </label>
+    </form>
+
+    <form method="post" action="/feeds/refresh" style="margin-top: 8px;">
+        <button type="submit" class="btn btn-small">Refresh All</button>
+    </form>
+</div>
+
+{% if articles.articles %}
+<div class="article-list">
+    {% for article in articles.articles %}
+    <a href="/article/{{ article.id }}" class="article-card {% if article.is_read %}read{% endif %}">
+        <div class="article-title">{{ article.title or "Untitled" }}</div>
+        <div class="article-meta">
+            {{ article.feed_title or "Unknown feed" }} &middot;
+            {{ article.published_at | relative_time }}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+<div class="pagination">
+    {% if articles.has_prev %}
+    <a href="/?page={{ page - 1 }}{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}"
+       class="pagination-btn">&larr; Prev</a>
+    {% else %}
+    <span class="pagination-btn disabled">&larr; Prev</span>
+    {% endif %}
+
+    <span class="pagination-info">{{ page }} / {{ articles.total_pages }}</span>
+
+    {% if articles.has_next %}
+    <a href="/?page={{ page + 1 }}{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}"
+       class="pagination-btn">Next &rarr;</a>
+    {% else %}
+    <span class="pagination-btn disabled">Next &rarr;</span>
+    {% endif %}
+</div>
+{% else %}
+<div class="empty-state">
+    <p>No articles yet.</p>
+    <p><a href="/feeds">Add some feeds</a> to get started.</p>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Error - E-Ink Reader{% endblock %}
+
+{% block content %}
+<a href="/" class="back-btn">&larr; Back</a>
+
+<div class="message error">
+    {{ message }}
+</div>
+{% endblock %}

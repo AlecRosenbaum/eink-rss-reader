@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title or "Article" }} - E-Ink Reader{% endblock %}
+
+{% block content %}
+<a href="/" class="back-btn">&larr; Back</a>
+
+<div class="article-actions">
+    {% if article.is_read %}
+    <form method="post" action="/article/{{ article.id }}/unread">
+        <button type="submit" class="btn btn-small">Mark Unread</button>
+    </form>
+    {% else %}
+    <form method="post" action="/article/{{ article.id }}/read">
+        <button type="submit" class="btn btn-small">Mark Read</button>
+    </form>
+    {% endif %}
+
+    {% if article.link %}
+    <a href="{{ article.link }}" class="btn btn-small" target="_blank">Open Original</a>
+    {% endif %}
+</div>
+
+<article>
+    <header class="article-header">
+        <h1>{{ article.title or "Untitled" }}</h1>
+        <div class="article-meta">
+            {{ article.feed_title or "Unknown feed" }} &middot;
+            {{ article.published_at | relative_time }}
+        </div>
+    </header>
+
+    <div class="article-content">
+        {% if article.content %}
+        {{ article.content | safe }}
+        {% elif article.summary %}
+        <p>{{ article.summary }}</p>
+        {% if article.link %}
+        <p><a href="{{ article.link }}" target="_blank">Read full article &rarr;</a></p>
+        {% endif %}
+        {% else %}
+        <p class="empty-state">No content available.</p>
+        {% if article.link %}
+        <p><a href="{{ article.link }}" target="_blank">Read full article &rarr;</a></p>
+        {% endif %}
+        {% endif %}
+    </div>
+</article>
+{% endblock %}

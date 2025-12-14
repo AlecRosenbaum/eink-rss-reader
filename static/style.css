@@ -1,0 +1,369 @@
+/* E-Ink optimized CSS - high contrast, no animations, large touch targets */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.5;
+    background: #fff;
+    color: #000;
+    max-width: 400px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    border-bottom: 2px solid #000;
+    padding: 8px 12px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #000;
+}
+
+nav {
+    display: flex;
+    gap: 8px;
+}
+
+.nav-btn {
+    padding: 6px 12px;
+    border: 2px solid #000;
+    text-decoration: none;
+    color: #000;
+    font-size: 0.9rem;
+}
+
+/* Main content */
+main {
+    flex: 1;
+    padding: 12px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 2px solid #000;
+    background: #fff;
+    color: #000;
+    font-size: 1rem;
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    min-height: 44px;
+    text-align: center;
+}
+
+.btn:active {
+    background: #000;
+    color: #fff;
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn-danger {
+    border-style: dashed;
+}
+
+/* Forms */
+form {
+    margin: 0;
+}
+
+input[type="text"],
+input[type="url"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #000;
+    font-size: 1rem;
+    font-family: inherit;
+    margin-bottom: 8px;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+/* Filter controls */
+.controls {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #000;
+}
+
+.filter-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-row select {
+    padding: 8px;
+    border: 2px solid #000;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #fff;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Article list */
+.article-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.article-card {
+    border: 2px solid #000;
+    padding: 12px;
+    text-decoration: none;
+    color: #000;
+    display: block;
+}
+
+.article-card:active {
+    background: #eee;
+}
+
+.article-card.read {
+    border-style: dashed;
+    opacity: 0.7;
+}
+
+.article-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+.article-meta {
+    font-size: 0.85rem;
+    color: #333;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #000;
+}
+
+.pagination-info {
+    font-size: 0.9rem;
+}
+
+.pagination-btn {
+    padding: 12px 20px;
+    border: 2px solid #000;
+    text-decoration: none;
+    color: #000;
+    min-width: 80px;
+    text-align: center;
+}
+
+.pagination-btn.disabled {
+    border-style: dashed;
+    color: #999;
+    pointer-events: none;
+}
+
+/* Article detail */
+.article-header {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #000;
+}
+
+.article-header h1 {
+    font-size: 1.2rem;
+    line-height: 1.3;
+    margin-bottom: 8px;
+}
+
+.article-content {
+    line-height: 1.6;
+}
+
+.article-content p {
+    margin-bottom: 1em;
+}
+
+.article-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.article-content a {
+    color: #000;
+    text-decoration: underline;
+}
+
+/* Feed list */
+.feed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.feed-card {
+    border: 2px solid #000;
+    padding: 12px;
+}
+
+.feed-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.feed-meta {
+    font-size: 0.85rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.feed-labels {
+    margin-bottom: 8px;
+}
+
+.label-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid #000;
+    font-size: 0.8rem;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+.feed-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Add feed form */
+.add-feed-form {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 2px solid #000;
+}
+
+.add-feed-form h2 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+}
+
+/* Settings */
+.settings-section {
+    margin-bottom: 24px;
+}
+
+.settings-section h2 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #000;
+}
+
+.key-display {
+    font-family: monospace;
+    font-size: 1.2rem;
+    padding: 12px;
+    border: 2px solid #000;
+    text-align: center;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+}
+
+/* Back button */
+.back-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 2px solid #000;
+    text-decoration: none;
+    color: #000;
+    margin-bottom: 16px;
+}
+
+/* Messages */
+.message {
+    padding: 12px;
+    border: 2px solid #000;
+    margin-bottom: 16px;
+}
+
+.message.error {
+    border-style: dashed;
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 24px;
+    color: #666;
+}
+
+/* External link */
+.external-link {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 8px 16px;
+    border: 2px solid #000;
+    text-decoration: none;
+    color: #000;
+}
+
+/* Article actions */
+.article-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - E-Ink Reader{% endblock %}
+
+{% block content %}
+{% if user_key %}
+<a href="/" class="back-btn">&larr; Back</a>
+{% endif %}
+
+<h1 style="font-size: 1.1rem; margin-bottom: 16px;">Settings</h1>
+
+<div class="settings-section">
+    <h2>Your Key</h2>
+
+    {% if user_key %}
+    <div class="key-display">{{ user_key }}</div>
+    <p style="font-size: 0.9rem; margin-bottom: 12px;">
+        Use this key to sync your reading history across devices.
+        Enter it on another device to access your feeds.
+    </p>
+    {% else %}
+    <p style="margin-bottom: 12px;">
+        Enter a key to get started, or generate a random one.
+    </p>
+    {% endif %}
+
+    <form method="post" action="/user/key" style="margin-bottom: 12px;">
+        <label for="key">{% if user_key %}Change key{% else %}Enter key{% endif %} (1-8 chars, alphanumeric)</label>
+        <input type="text" id="key" name="key" maxlength="8" pattern="[a-zA-Z0-9]+"
+               placeholder="mykey123" value="{{ user_key or '' }}">
+        <button type="submit" class="btn btn-block">
+            {% if user_key %}Update Key{% else %}Use This Key{% endif %}
+        </button>
+    </form>
+
+    {% if not user_key %}
+    <p style="text-align: center; margin: 12px 0;">or</p>
+    <form method="post" action="/user/generate">
+        <button type="submit" class="btn btn-block">Generate Random Key</button>
+    </form>
+    {% endif %}
+</div>
+
+{% if user %}
+<div class="settings-section">
+    <h2>Account Info</h2>
+    <p>Account created: {{ user.created_at.strftime('%Y-%m-%d') }}</p>
+</div>
+{% endif %}
+{% endblock %}
