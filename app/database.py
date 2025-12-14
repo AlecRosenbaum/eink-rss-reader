@@ -1,7 +1,8 @@
-import aiosqlite
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import AsyncGenerator
+
+import aiosqlite
 
 from app.config import settings
 

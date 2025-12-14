@@ -1,11 +1,12 @@
-import pytest
-from httpx import AsyncClient, ASGITransport
 import tempfile
 from pathlib import Path
 
+import pytest
+from httpx import ASGITransport, AsyncClient
+
+from app.database import Database, db
 from app.main import app
-from app.database import db, Database
-from app.services.crud import create_user, create_feed
+from app.services.crud import create_user
 
 
 @pytest.fixture

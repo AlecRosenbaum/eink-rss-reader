@@ -1,12 +1,13 @@
 """Background scheduler for periodic feed refresh."""
 
 import logging
+
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 
 from app.config import settings
 from app.database import db
-from app.services.feed import refresh_all_feeds, cleanup_old_articles
+from app.services.feed import cleanup_old_articles, refresh_all_feeds
 
 logger = logging.getLogger(__name__)
 

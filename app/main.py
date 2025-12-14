@@ -1,12 +1,12 @@
-from contextlib import asynccontextmanager
 import logging
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
 from app.database import db
-from app.routers import pages, api
+from app.routers import api, pages
 from app.services.scheduler import start_scheduler, stop_scheduler
 
 # Configure logging

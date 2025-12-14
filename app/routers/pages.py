@@ -1,14 +1,14 @@
 from datetime import datetime
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Form, Query, Request, Response
+from fastapi import APIRouter, Depends, Form, Query, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from app.database import Database, get_db
-from app.services import crud
-from app.services.feed import refresh_feed, refresh_all_feeds, FeedFetchError, FeedParseError
 from app.models import generate_user_key
+from app.services import crud
+from app.services.feed import FeedFetchError, FeedParseError, refresh_all_feeds, refresh_feed
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -210,7 +210,7 @@ async def add_feed(
         return RedirectResponse(url="/settings", status_code=302)
 
     # Parse labels
-    label_list = [l.strip().lower() for l in labels.split(",") if l.strip()]
+    label_list = [lbl.strip().lower() for lbl in labels.split(",") if lbl.strip()]
 
     try:
         feed = await crud.create_feed(db, user.id, url, label_list)
@@ -220,8 +220,8 @@ async def add_feed(
             return RedirectResponse(url="/feeds?message=Feed+added+successfully", status_code=302)
         except (FeedFetchError, FeedParseError) as e:
             return RedirectResponse(url=f"/feeds?error=Feed+added+but+refresh+failed:+{str(e)[:50]}", status_code=302)
-    except Exception as e:
-        return RedirectResponse(url=f"/feeds?error=Failed+to+add+feed", status_code=302)
+    except Exception:
+        return RedirectResponse(url="/feeds?error=Failed+to+add+feed", status_code=302)
 
 
 @router.post("/feeds/{feed_id}/delete")
@@ -270,8 +270,8 @@ async def refresh_single_feed(
     try:
         count = await refresh_feed(db, feed_id)
         return RedirectResponse(url=f"/feeds?message=Refreshed,+{count}+new+articles", status_code=302)
-    except (FeedFetchError, FeedParseError) as e:
-        return RedirectResponse(url=f"/feeds?error=Refresh+failed", status_code=302)
+    except (FeedFetchError, FeedParseError):
+        return RedirectResponse(url="/feeds?error=Refresh+failed", status_code=302)
 
 
 @router.post("/feeds/refresh")
@@ -317,7 +317,7 @@ async def update_labels(
     if not feed or feed.user_id != user.id:
         return RedirectResponse(url="/feeds?error=Feed+not+found", status_code=302)
 
-    label_list = [l.strip().lower() for l in labels.split(",") if l.strip()]
+    label_list = [lbl.strip().lower() for lbl in labels.split(",") if lbl.strip()]
     await crud.set_feed_labels(db, feed_id, label_list)
 
     return RedirectResponse(url="/feeds?message=Labels+updated", status_code=302)

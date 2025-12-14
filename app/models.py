@@ -1,7 +1,8 @@
-from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, field_validator
 import secrets
 import string
+from datetime import datetime
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from app.config import settings
 

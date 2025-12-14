@@ -1,22 +1,21 @@
-import pytest
 from datetime import datetime
 
 from app.database import Database
 from app.services.crud import (
-    create_user,
-    get_user_by_key,
-    get_or_create_user,
     create_feed,
-    get_feed,
-    get_user_feeds,
+    create_user,
     delete_feed,
-    set_feed_labels,
-    get_feed_labels,
     get_all_user_labels,
-    get_articles,
     get_article,
+    get_articles,
+    get_feed,
+    get_feed_labels,
+    get_or_create_user,
+    get_user_by_key,
+    get_user_feeds,
     mark_article_read,
     mark_article_unread,
+    set_feed_labels,
 )
 
 

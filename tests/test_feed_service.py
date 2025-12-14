@@ -1,14 +1,12 @@
 import pytest
-from datetime import datetime
 
 from app.services.feed import (
-    parse_feed,
-    get_guid,
-    get_content,
-    parse_datetime,
     FeedParseError,
+    get_content,
+    get_guid,
+    parse_datetime,
+    parse_feed,
 )
-
 
 SAMPLE_RSS = """<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">

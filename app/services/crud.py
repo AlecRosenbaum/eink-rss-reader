@@ -1,17 +1,16 @@
 from datetime import datetime
 from math import ceil
 
+from app.config import settings
 from app.database import Database
 from app.models import (
-    User,
-    Feed,
     Article,
     ArticleDetail,
+    Feed,
     PaginatedArticles,
+    User,
     generate_user_key,
 )
-from app.config import settings
-
 
 # ============== User Operations ==============
 

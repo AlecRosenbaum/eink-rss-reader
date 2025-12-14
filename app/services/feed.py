@@ -1,8 +1,9 @@
-import feedparser
-import httpx
 from datetime import datetime
 from time import mktime
 from typing import Any
+
+import feedparser
+import httpx
 
 from app.config import settings
 from app.database import Database
@@ -66,9 +67,9 @@ async def fetch_feed_content(url: str) -> str:
             response.raise_for_status()
             return response.text
         except httpx.HTTPStatusError as e:
-            raise FeedFetchError(f"HTTP error {e.response.status_code}: {url}")
+            raise FeedFetchError(f"HTTP error {e.response.status_code}: {url}") from e
         except httpx.RequestError as e:
-            raise FeedFetchError(f"Request failed: {e}")
+            raise FeedFetchError(f"Request failed: {e}") from e
 
 
 def parse_feed(content: str) -> feedparser.FeedParserDict:

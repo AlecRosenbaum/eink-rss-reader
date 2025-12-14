@@ -28,14 +28,15 @@ Open http://localhost:8000 in your browser. You'll be prompted to create or ente
 ## Docker
 
 ```bash
-# Build the image
-docker build -t eink-reader .
+# Pull from GitHub Container Registry
+docker pull ghcr.io/alecrosenbaum/eink-reader:main
 
 # Run with persistent data
-docker run -d -p 8000:8000 -v eink-data:/app/data eink-reader
+docker run -d -p 8000:8000 -v eink-data:/app/data ghcr.io/alecrosenbaum/eink-reader:main
 
-# Or with a host directory
-docker run -d -p 8000:8000 -v /path/to/data:/app/data eink-reader
+# Or build locally
+docker build -t eink-reader .
+docker run -d -p 8000:8000 -v eink-data:/app/data eink-reader
 ```
 
 ## Commands
@@ -50,8 +51,9 @@ uv run python run.py
 # Run tests
 uv run pytest
 
-# Run tests with verbose output
-uv run pytest -v
+# Lint and format
+uv run ruff check .
+uv run ruff format .
 ```
 
 ## Configuration
