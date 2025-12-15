@@ -11,6 +11,7 @@
         <div class="header-content">
             <a href="/" class="logo">Reader</a>
             <nav>
+                {% block header_controls %}{% endblock %}
                 <a href="/feeds" class="nav-btn">Feeds</a>
                 <a href="/settings" class="nav-btn">Settings</a>
             </nav>

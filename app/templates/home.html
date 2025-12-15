@@ -2,29 +2,35 @@
 
 {% block title %}Home - E-Ink Reader{% endblock %}
 
+{% block header_controls %}
+<form method="post" action="/feeds/refresh" style="display:inline;margin:0">
+    <button type="submit" class="nav-btn nav-icon" title="Refresh">&#x21bb;</button>
+</form>
+{% if request.query_params.get('filter') %}
+<a href="/?page={{ page }}{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}" class="nav-btn nav-icon active" title="Hide filter">&#x25b2;</a>
+{% else %}
+<a href="?filter=1{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}" class="nav-btn nav-icon" title="Show filter">&#x25bc;</a>
+{% endif %}
+{% endblock %}
+
 {% block content %}
-<div class="controls">
-    <form method="get" action="/" class="filter-row">
-        <label for="label">Label:</label>
-        <select name="label" id="label" onchange="this.form.submit()">
-            <option value="">All</option>
-            {% for l in labels %}
-            <option value="{{ l }}" {% if l == current_label %}selected{% endif %}>{{ l }}</option>
-            {% endfor %}
-        </select>
-
-        <label class="checkbox-label">
-            <input type="checkbox" name="hide_read" value="true"
-                   {% if hide_read %}checked{% endif %}
-                   onchange="this.form.submit()">
-            Hide read
-        </label>
-    </form>
-
-    <form method="post" action="/feeds/refresh" style="margin-top: 8px;">
-        <button type="submit" class="btn btn-small">Refresh All</button>
-    </form>
-</div>
+{% if request.query_params.get('filter') %}
+<form method="get" action="/" class="filter-bar">
+    <select name="label" onchange="this.form.submit()">
+        <option value="">All labels</option>
+        {% for l in labels %}
+        <option value="{{ l }}" {% if l == current_label %}selected{% endif %}>{{ l }}</option>
+        {% endfor %}
+    </select>
+    <label class="hide-read-opt">
+        <input type="checkbox" name="hide_read" value="true"
+               {% if hide_read %}checked{% endif %}
+               onchange="this.form.submit()">
+        Hide read
+    </label>
+    <input type="hidden" name="filter" value="1">
+</form>
+{% endif %}
 
 {% if articles.articles %}
 <div class="article-list">
@@ -39,23 +45,25 @@
     {% endfor %}
 </div>
 
-<div class="pagination">
-    {% if articles.has_prev %}
-    <a href="/?page={{ page - 1 }}{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}"
-       class="pagination-btn">&larr; Prev</a>
-    {% else %}
-    <span class="pagination-btn disabled">&larr; Prev</span>
-    {% endif %}
-
-    <span class="pagination-info">{{ page }} / {{ articles.total_pages }}</span>
-
-    {% if articles.has_next %}
-    <a href="/?page={{ page + 1 }}{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}"
-       class="pagination-btn">Next &rarr;</a>
-    {% else %}
-    <span class="pagination-btn disabled">Next &rarr;</span>
-    {% endif %}
-</div>
+<table class="pagination"><tr>
+    <td class="pagination-prev">
+        {% if articles.has_prev %}
+        <a href="/?page={{ page - 1 }}{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}{% if request.query_params.get('filter') %}&filter=1{% endif %}"
+           class="pagination-btn">&larr; Prev</a>
+        {% else %}
+        <span class="pagination-btn disabled">&larr; Prev</span>
+        {% endif %}
+    </td>
+    <td class="pagination-info">{{ page }} / {{ articles.total_pages }}</td>
+    <td class="pagination-next">
+        {% if articles.has_next %}
+        <a href="/?page={{ page + 1 }}{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}{% if request.query_params.get('filter') %}&filter=1{% endif %}"
+           class="pagination-btn">Next &rarr;</a>
+        {% else %}
+        <span class="pagination-btn disabled">Next &rarr;</span>
+        {% endif %}
+    </td>
+</tr></table>
 {% else %}
 <div class="empty-state">
     <p>No articles yet.</p>

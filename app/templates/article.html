@@ -3,19 +3,17 @@
 {% block title %}{{ article.title or "Article" }} - E-Ink Reader{% endblock %}
 
 {% block content %}
-<a href="/" class="back-btn">&larr; Back</a>
-
 <div class="article-actions">
+    <a href="/" class="btn btn-small">&larr; Back</a>
     {% if article.is_read %}
-    <form method="post" action="/article/{{ article.id }}/unread">
+    <form method="post" action="/article/{{ article.id }}/unread" class="inline-form">
         <button type="submit" class="btn btn-small">Mark Unread</button>
     </form>
     {% else %}
-    <form method="post" action="/article/{{ article.id }}/read">
+    <form method="post" action="/article/{{ article.id }}/read" class="inline-form">
         <button type="submit" class="btn btn-small">Mark Read</button>
     </form>
     {% endif %}
-
     {% if article.link %}
     <a href="{{ article.link }}" class="btn btn-small" target="_blank">Open Original</a>
     {% endif %}

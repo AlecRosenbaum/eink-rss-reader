@@ -1,4 +1,5 @@
 /* E-Ink optimized CSS - high contrast, no animations, large touch targets */
+/* Kindle-compatible: no flexbox, no grid, basic CSS only */
 
 * {
     box-sizing: border-box;
@@ -18,8 +19,6 @@ body {
     max-width: 400px;
     margin: 0 auto;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 /* Header */
@@ -29,34 +28,229 @@ header {
 }
 
 .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    overflow: hidden;
 }
 
 .logo {
+    float: left;
     font-weight: bold;
     font-size: 1.1rem;
     text-decoration: none;
     color: #000;
+    line-height: 32px;
 }
 
 nav {
-    display: flex;
-    gap: 8px;
+    float: right;
 }
 
 .nav-btn {
+    display: inline-block;
     padding: 6px 12px;
     border: 2px solid #000;
     text-decoration: none;
     color: #000;
     font-size: 0.9rem;
+    margin-left: 4px;
+    background: #fff;
+    font-family: inherit;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.nav-btn.nav-icon {
+    padding: 6px 10px;
+    font-size: 1rem;
+}
+
+.nav-btn.active {
+    background: #000;
+    color: #fff;
+}
+
+.filter-bar {
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 2px solid #000;
+    background: #f5f5f5;
+}
+
+.filter-bar select {
+    padding: 6px 8px;
+    border: 2px solid #000;
+    font-size: 14px;
+    font-family: inherit;
+    background: #fff;
+    margin-right: 12px;
+}
+
+.filter-bar .hide-read-opt {
+    display: inline;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.filter-bar input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.nav-filter {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
+
+.nav-filter summary {
+    list-style: none;
+}
+
+.nav-filter summary::-webkit-details-marker {
+    display: none;
+}
+
+.nav-filter[open] summary {
+    background: #000;
+    color: #fff;
+}
+
+.filter-dropdown {
+    position: absolute;
+    right: 0;
+    top: 32px;
+    padding: 8px;
+    border: 2px solid #000;
+    background: #fff;
+    white-space: nowrap;
+    z-index: 100;
+}
+
+.filter-dropdown select {
+    display: block;
+    padding: 6px 8px;
+    border: 2px solid #000;
+    font-size: 14px;
+    font-family: inherit;
+    background: #fff;
+    margin-bottom: 8px;
+}
+
+.filter-dropdown label {
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.filter-dropdown input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+/* Header controls row (wraps filters + refresh) */
+.header-controls-row {
+    clear: both;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #ccc;
+}
+
+.header-controls-row:empty {
+    display: none;
+}
+
+/* Header controls (home page) */
+.header-controls {
+    clear: both;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #ccc;
+}
+
+.header-controls-top {
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.filter-toggle {
+    display: inline;
+}
+
+.filter-toggle summary {
+    cursor: pointer;
+    padding: 6px 12px;
+    border: 2px solid #000;
+    font-size: 14px;
+    display: inline-block;
+    background: #fff;
+    list-style: none;
+}
+
+.filter-toggle summary::-webkit-details-marker {
+    display: none;
+}
+
+.filter-toggle[open] summary {
+    background: #000;
+    color: #fff;
+}
+
+.filter-form {
+    margin-top: 8px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    clear: both;
+}
+
+.filter-form select {
+    padding: 6px 8px;
+    border: 2px solid #000;
+    font-size: 14px;
+    font-family: inherit;
+    background: #fff;
+    margin-right: 12px;
+}
+
+.hide-read-label {
+    display: inline;
+    font-size: 14px;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+.hide-read-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.refresh-form {
+    display: inline;
+    float: right;
+    margin: 0;
+}
+
+.refresh-icon {
+    padding: 6px 10px;
+    border: 2px solid #000;
+    background: #fff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.refresh-icon:active {
+    background: #000;
+    color: #fff;
 }
 
 /* Main content */
 main {
-    flex: 1;
     padding: 12px;
 }
 
@@ -130,11 +324,7 @@ label {
 }
 
 .filter-row {
-    display: flex;
-    gap: 12px;
-    align-items: center;
     margin-bottom: 8px;
-    flex-wrap: wrap;
 }
 
 .filter-row select {
@@ -143,19 +333,18 @@ label {
     font-size: 1rem;
     font-family: inherit;
     background: #fff;
+    margin-right: 12px;
 }
 
 .checkbox-label {
-    display: flex;
-    align-items: center;
+    display: inline-block;
     cursor: pointer;
+    vertical-align: middle;
 }
 
 /* Article list */
 .article-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    /* Block display, children are block with margin */
 }
 
 .article-card {
@@ -164,6 +353,7 @@ label {
     text-decoration: none;
     color: #000;
     display: block;
+    margin-bottom: 12px;
 }
 
 .article-card:active {
@@ -189,31 +379,45 @@ label {
 
 /* Pagination */
 .pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-top: 16px;
     padding-top: 12px;
     border-top: 1px solid #000;
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.pagination-info {
+.pagination td {
+    padding: 0;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.pagination .pagination-prev {
+    text-align: left;
+}
+
+.pagination .pagination-info {
+    text-align: center;
     font-size: 0.9rem;
 }
 
+.pagination .pagination-next {
+    text-align: right;
+}
+
 .pagination-btn {
-    padding: 12px 20px;
+    display: inline-block;
+    padding: 8px 12px;
     border: 2px solid #000;
     text-decoration: none;
     color: #000;
-    min-width: 80px;
     text-align: center;
+    font-size: 0.9rem;
 }
 
 .pagination-btn.disabled {
     border-style: dashed;
     color: #999;
-    pointer-events: none;
 }
 
 /* Article detail */
@@ -249,14 +453,13 @@ label {
 
 /* Feed list */
 .feed-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    /* Block display, children have margin */
 }
 
 .feed-card {
     border: 2px solid #000;
     padding: 12px;
+    margin-bottom: 12px;
 }
 
 .feed-title {
@@ -284,9 +487,14 @@ label {
 }
 
 .feed-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.feed-actions .btn,
+.feed-actions .btn-small,
+.feed-actions button {
+    margin-right: 8px;
+    margin-bottom: 8px;
 }
 
 /* Add feed form */
@@ -363,7 +571,16 @@ label {
 
 /* Article actions */
 .article-actions {
-    display: flex;
-    gap: 8px;
     margin-bottom: 16px;
+}
+
+.article-actions .btn,
+.article-actions button {
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+.inline-form {
+    display: inline;
+    margin: 0;
 }
