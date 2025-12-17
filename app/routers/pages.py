@@ -56,7 +56,7 @@ async def home(
     db: Annotated[Database, Depends(get_db)],
     page: int = Query(1, ge=1),
     label: str | None = Query(None),
-    hide_read: bool = Query(False),
+    show_read: bool = Query(False),
 ):
     """Home page with article list."""
     user_key = get_user_key(request)
@@ -67,8 +67,8 @@ async def home(
     if not user:
         return RedirectResponse(url="/settings", status_code=302)
 
-    # Get articles
-    articles = await crud.get_articles(db, user.id, page=page, hide_read=hide_read, label=label)
+    # Get articles (hide read by default, show_read=True shows them)
+    articles = await crud.get_articles(db, user.id, page=page, hide_read=not show_read, label=label)
 
     # Get all labels for filter dropdown
     all_labels = await crud.get_all_user_labels(db, user.id)
@@ -80,7 +80,7 @@ async def home(
             "articles": articles,
             "labels": all_labels,
             "current_label": label,
-            "hide_read": hide_read,
+            "show_read": show_read,
             "page": page,
         },
     )
@@ -94,6 +94,9 @@ async def article_detail(
     request: Request,
     article_id: int,
     db: Annotated[Database, Depends(get_db)],
+    page: int = Query(1, ge=1),
+    label: str | None = Query(None),
+    show_read: bool = Query(False),
 ):
     """Single article view."""
     user_key = get_user_key(request)
@@ -116,10 +119,20 @@ async def article_detail(
     # Mark as read
     await crud.mark_article_read(db, user.id, article_id)
 
+    # Build back URL with preserved query params
+    back_params = []
+    if page > 1:
+        back_params.append(f"page={page}")
+    if label:
+        back_params.append(f"label={label}")
+    if show_read:
+        back_params.append("show_read=true")
+    back_url = "/" + ("?" + "&".join(back_params) if back_params else "")
+
     return templates.TemplateResponse(
         request,
         "article.html",
-        {"article": article},
+        {"article": article, "back_url": back_url},
     )
 
 

@@ -7,9 +7,9 @@
     <button type="submit" class="nav-btn nav-icon" title="Refresh">&#x21bb;</button>
 </form>
 {% if request.query_params.get('filter') %}
-<a href="/?page={{ page }}{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}" class="nav-btn nav-icon active" title="Hide filter">&#x25b2;</a>
+<a href="/?page={{ page }}{% if current_label %}&label={{ current_label }}{% endif %}{% if show_read %}&show_read=true{% endif %}" class="nav-btn nav-icon active" title="Hide filter">&#x25b2;</a>
 {% else %}
-<a href="?filter=1{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}" class="nav-btn nav-icon" title="Show filter">&#x25bc;</a>
+<a href="?filter=1{% if current_label %}&label={{ current_label }}{% endif %}{% if show_read %}&show_read=true{% endif %}" class="nav-btn nav-icon" title="Show filter">&#x25bc;</a>
 {% endif %}
 {% endblock %}
 
@@ -23,10 +23,10 @@
         {% endfor %}
     </select>
     <label class="hide-read-opt">
-        <input type="checkbox" name="hide_read" value="true"
-               {% if hide_read %}checked{% endif %}
+        <input type="checkbox" name="show_read" value="true"
+               {% if show_read %}checked{% endif %}
                onchange="this.form.submit()">
-        Hide read
+        Show read
     </label>
     <input type="hidden" name="filter" value="1">
 </form>
@@ -35,7 +35,7 @@
 {% if articles.articles %}
 <div class="article-list">
     {% for article in articles.articles %}
-    <a href="/article/{{ article.id }}" class="article-card {% if article.is_read %}read{% endif %}">
+    <a href="/article/{{ article.id }}?page={{ page }}{% if current_label %}&label={{ current_label }}{% endif %}{% if show_read %}&show_read=true{% endif %}" class="article-card {% if article.is_read %}read{% endif %}">
         <div class="article-title">{{ article.title or "Untitled" }}</div>
         <div class="article-meta">
             {{ article.feed_title or "Unknown feed" }} &middot;
@@ -48,7 +48,7 @@
 <table class="pagination"><tr>
     <td class="pagination-prev">
         {% if articles.has_prev %}
-        <a href="/?page={{ page - 1 }}{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}{% if request.query_params.get('filter') %}&filter=1{% endif %}"
+        <a href="/?page={{ page - 1 }}{% if current_label %}&label={{ current_label }}{% endif %}{% if show_read %}&show_read=true{% endif %}{% if request.query_params.get('filter') %}&filter=1{% endif %}"
            class="pagination-btn">&larr; Prev</a>
         {% else %}
         <span class="pagination-btn disabled">&larr; Prev</span>
@@ -57,7 +57,7 @@
     <td class="pagination-info">{{ page }} / {{ articles.total_pages }}</td>
     <td class="pagination-next">
         {% if articles.has_next %}
-        <a href="/?page={{ page + 1 }}{% if current_label %}&label={{ current_label }}{% endif %}{% if hide_read %}&hide_read=true{% endif %}{% if request.query_params.get('filter') %}&filter=1{% endif %}"
+        <a href="/?page={{ page + 1 }}{% if current_label %}&label={{ current_label }}{% endif %}{% if show_read %}&show_read=true{% endif %}{% if request.query_params.get('filter') %}&filter=1{% endif %}"
            class="pagination-btn">Next &rarr;</a>
         {% else %}
         <span class="pagination-btn disabled">Next &rarr;</span>
