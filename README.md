@@ -2,6 +2,12 @@
 
 A minimal, self-hosted RSS/Atom feed reader optimized for e-ink displays (Kindle web browser). Prioritizes readability, large touch targets, and pagination over scrolling.
 
+## Screenshots
+
+| Home | Article | Feeds | Settings |
+|------|---------|-------|----------|
+| ![Home](screenshots/home.png) | ![Article](screenshots/article.png) | ![Feeds](screenshots/feeds.png) | ![Settings](screenshots/settings.png) |
+
 ## Features
 
 - **Feed Management**: Add/remove RSS and Atom feeds with multiple labels
@@ -16,14 +22,12 @@ A minimal, self-hosted RSS/Atom feed reader optimized for e-ink displays (Kindle
 ## Quick Start
 
 ```bash
-# Install dependencies
-uv sync --extra dev
-
-# Run the server
-uv run python run.py
+docker run -d -p 8000:8000 -v ./data:/app/data ghcr.io/alecrosenbaum/eink-reader:main
 ```
 
 Open http://localhost:8000 in your browser. You'll be prompted to create or enter a user key.
+
+Data is persisted in the `./data` directory on your host.
 
 ## Docker
 
@@ -31,12 +35,15 @@ Open http://localhost:8000 in your browser. You'll be prompted to create or ente
 # Pull from GitHub Container Registry
 docker pull ghcr.io/alecrosenbaum/eink-reader:main
 
-# Run with persistent data
+# Run with persistent data (bind mount)
+docker run -d -p 8000:8000 -v ./data:/app/data ghcr.io/alecrosenbaum/eink-reader:main
+
+# Or use a named volume
 docker run -d -p 8000:8000 -v eink-data:/app/data ghcr.io/alecrosenbaum/eink-reader:main
 
 # Or build locally
 docker build -t eink-reader .
-docker run -d -p 8000:8000 -v eink-data:/app/data eink-reader
+docker run -d -p 8000:8000 -v ./data:/app/data eink-reader
 ```
 
 ## Commands
