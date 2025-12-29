@@ -8,7 +8,7 @@
 }
 
 html {
-    font-size: 16px;
+    font-size: 18px;
 }
 
 body {
@@ -16,7 +16,7 @@ body {
     line-height: 1.5;
     background: #fff;
     color: #000;
-    max-width: 400px;
+    max-width: 600px;
     margin: 0 auto;
     min-height: 100vh;
 }
@@ -24,7 +24,7 @@ body {
 /* Header */
 header {
     border-bottom: 2px solid #000;
-    padding: 8px 12px;
+    padding: 8px;
 }
 
 .header-content {
@@ -56,11 +56,17 @@ nav {
     font-family: inherit;
     cursor: pointer;
     vertical-align: middle;
+    height: 36px;
+    line-height: 20px;
 }
 
 .nav-btn.nav-icon {
     padding: 6px 10px;
     font-size: 1rem;
+    min-width: 36px;
+    height: 36px;
+    line-height: 20px;
+    text-align: center;
 }
 
 .nav-btn.active {
@@ -251,7 +257,7 @@ nav {
 
 /* Main content */
 main {
-    padding: 12px;
+    padding: 8px;
 }
 
 /* Buttons */
@@ -449,6 +455,33 @@ label {
 .article-content a {
     color: #000;
     text-decoration: underline;
+}
+
+.article-content pre,
+.article-content code {
+    font-family: monospace;
+    font-size: 0.85rem;
+}
+
+.article-content pre {
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 8px;
+    border: 1px solid #000;
+    background: #f5f5f5;
+    margin-bottom: 1em;
+    white-space: pre;
+    word-wrap: normal;
+}
+
+.article-content code {
+    background: #f5f5f5;
+    padding: 1px 4px;
+}
+
+.article-content pre code {
+    padding: 0;
+    background: none;
 }
 
 /* Feed list */

@@ -2,23 +2,16 @@
 
 {% block title %}{{ article.title or "Article" }} - E-Ink Reader{% endblock %}
 
-{% block content %}
-<div class="article-actions">
-    <a href="{{ back_url }}" class="btn btn-small">&larr; Back</a>
-    {% if article.is_read %}
-    <form method="post" action="/article/{{ article.id }}/unread" class="inline-form">
-        <button type="submit" class="btn btn-small">Mark Unread</button>
-    </form>
-    {% else %}
-    <form method="post" action="/article/{{ article.id }}/read" class="inline-form">
-        <button type="submit" class="btn btn-small">Mark Read</button>
-    </form>
-    {% endif %}
-    {% if article.link %}
-    <a href="{{ article.link }}" class="btn btn-small" target="_blank">Open Original</a>
-    {% endif %}
-</div>
+{% block header_controls %}
+<form method="post" action="/article/{{ article.id }}/unread" style="display:inline;margin:0">
+    <button type="submit" class="nav-btn nav-icon" title="Mark Unread">✉</button>
+</form>
+{% if article.link %}
+<a href="{{ article.link }}" class="nav-btn nav-icon" target="_blank" title="Open Original">➚</a>
+{% endif %}
+{% endblock %}
 
+{% block content %}
 <article>
     <header class="article-header">
         <h1>{{ article.title or "Untitled" }}</h1>
