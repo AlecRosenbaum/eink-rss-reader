@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}{{ feed.title or "Feed" }} - E-Ink Reader{% endblock %}
+
+{% block content %}
+<h1 style="font-size: 1.1rem; margin-bottom: 8px;">{{ feed.title or "Untitled Feed" }}</h1>
+<div class="feed-meta" style="margin-bottom: 16px;">
+    {{ feed.article_count }} articles
+</div>
+
+{% if message %}
+<div class="message">{{ message }}</div>
+{% endif %}
+
+{% if error %}
+<div class="message error">{{ error }}</div>
+{% endif %}
+
+<div class="feed-detail-section">
+    <label for="url">Feed URL</label>
+    <div class="feed-url">{{ feed.url }}</div>
+</div>
+
+<div class="feed-detail-section">
+    <form method="post" action="/feeds/{{ feed.id }}/labels">
+        <label for="labels">Labels (comma-separated)</label>
+        <input type="text" id="labels" name="labels" value="{{ feed.labels | join(', ') }}"
+               placeholder="news, tech">
+        <button type="submit" class="btn btn-block">Update Labels</button>
+    </form>
+</div>
+
+<div class="feed-detail-section">
+    <form method="post" action="/feeds/{{ feed.id }}/refresh">
+        <button type="submit" class="btn btn-block">Refresh Feed</button>
+    </form>
+</div>
+
+<div class="feed-detail-section">
+    <form method="post" action="/feeds/{{ feed.id }}/delete"
+          onsubmit="return confirm('Delete this feed and all its articles?')">
+        <button type="submit" class="btn btn-block btn-danger">Remove Feed</button>
+    </form>
+</div>
+{% endblock %}

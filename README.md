@@ -4,9 +4,17 @@ A minimal, self-hosted RSS/Atom feed reader optimized for e-ink displays (Kindle
 
 ## Screenshots
 
-| Home | Article | Feeds | Settings |
-|------|---------|-------|----------|
-| ![Home](screenshots/home.png) | ![Article](screenshots/article.png) | ![Feeds](screenshots/feeds.png) | ![Settings](screenshots/settings.png) |
+| Home | Article |
+|------|---------|
+| ![Home](screenshots/home.png) | ![Article](screenshots/article.png) |
+
+| Feeds | Feed Detail |
+|-------|-------------|
+| ![Feeds](screenshots/feeds.png) | ![Feed Detail](screenshots/feed-detail.png) |
+
+| Settings |
+|----------|
+| ![Settings](screenshots/settings.png) |
 
 ## Features
 

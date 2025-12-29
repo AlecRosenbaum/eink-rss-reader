@@ -519,15 +519,32 @@ label {
     margin-bottom: 4px;
 }
 
-.feed-actions {
-    margin-top: 8px;
+.feed-card-link {
+    border: 2px solid #000;
+    padding: 12px;
+    margin-bottom: 12px;
+    display: block;
+    text-decoration: none;
+    color: #000;
 }
 
-.feed-actions .btn,
-.feed-actions .btn-small,
-.feed-actions button {
-    margin-right: 8px;
-    margin-bottom: 8px;
+.feed-card-link:active {
+    background: #eee;
+}
+
+.feed-detail-section {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #ccc;
+}
+
+.feed-url {
+    font-family: monospace;
+    font-size: 0.85rem;
+    word-break: break-all;
+    padding: 8px;
+    border: 1px solid #ccc;
+    background: #f5f5f5;
 }
 
 /* Add feed form */

@@ -4,11 +4,17 @@
 
 {% block header_controls %}
 <form method="post" action="/article/{{ article.id }}/unread" style="display:inline;margin:0">
+    <input type="hidden" name="redirect" value="{{ back_url }}">
     <button type="submit" class="nav-btn nav-icon" title="Mark Unread">✉</button>
 </form>
 {% if article.link %}
 <a href="{{ article.link }}" class="nav-btn nav-icon" target="_blank" title="Open Original">➚</a>
 {% endif %}
+{% endblock %}
+
+{% block header_nav %}
+<a href="/feeds/{{ article.feed_id }}" class="nav-btn">Feed</a>
+<a href="/settings" class="nav-btn">Settings</a>
 {% endblock %}
 
 {% block content %}

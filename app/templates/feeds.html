@@ -3,9 +3,7 @@
 {% block title %}Manage Feeds - E-Ink Reader{% endblock %}
 
 {% block content %}
-<a href="/" class="back-btn">&larr; Back</a>
-
-<h1 style="font-size: 1.1rem; margin-bottom: 16px;">Manage Feeds</h1>
+<h1 style="font-size: 1.1rem; margin-bottom: 16px;">Feeds</h1>
 
 {% if message %}
 <div class="message">{{ message }}</div>
@@ -15,46 +13,7 @@
 <div class="message error">{{ error }}</div>
 {% endif %}
 
-{% if feeds %}
-<div class="feed-list">
-    {% for feed in feeds %}
-    <div class="feed-card">
-        <div class="feed-title">{{ feed.title or feed.url }}</div>
-        <div class="feed-meta">{{ feed.article_count }} articles</div>
-
-        {% if feed.labels %}
-        <div class="feed-labels">
-            {% for label in feed.labels %}
-            <span class="label-tag">{{ label }}</span>
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        <form method="post" action="/feeds/{{ feed.id }}/labels" style="margin-bottom: 8px;">
-            <input type="text" name="labels" value="{{ feed.labels | join(', ') }}"
-                   placeholder="Labels (comma-separated)" style="margin-bottom: 4px;">
-            <button type="submit" class="btn btn-small">Update Labels</button>
-        </form>
-
-        <div class="feed-actions">
-            <form method="post" action="/feeds/{{ feed.id }}/refresh">
-                <button type="submit" class="btn btn-small">Refresh</button>
-            </form>
-            <form method="post" action="/feeds/{{ feed.id }}/delete"
-                  onsubmit="return confirm('Delete this feed and all its articles?')">
-                <button type="submit" class="btn btn-small btn-danger">Remove</button>
-            </form>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-{% else %}
-<div class="empty-state">
-    <p>No feeds yet. Add one below.</p>
-</div>
-{% endif %}
-
-<div class="add-feed-form">
+<div class="add-feed-form" style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #000;">
     <h2>Add Feed</h2>
     <form method="post" action="/feeds/add">
         <label for="url">Feed URL</label>
@@ -66,4 +25,22 @@
         <button type="submit" class="btn btn-block">Add Feed</button>
     </form>
 </div>
+
+{% if feeds %}
+<div class="feed-list">
+    {% for feed in feeds %}
+    <a href="/feeds/{{ feed.id }}" class="feed-card-link">
+        <div class="feed-title">{{ feed.title or feed.url }}</div>
+        <div class="feed-meta">
+            {{ feed.article_count }} articles
+            {% if feed.labels %} · {{ feed.labels | join(', ') }}{% endif %}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <p>No feeds yet. Add one above.</p>
+</div>
+{% endif %}
 {% endblock %}

@@ -160,6 +160,7 @@ async def mark_unread(
     article_id: int,
     db: Annotated[Database, Depends(get_db)],
     request: Request,
+    redirect: Annotated[str, Form()] = "/",
 ):
     """Mark article as unread."""
     user_key = get_user_key(request)
@@ -170,8 +171,7 @@ async def mark_unread(
     if user:
         await crud.mark_article_unread(db, user.id, article_id)
 
-    referer = request.headers.get("referer", "/")
-    return RedirectResponse(url=referer, status_code=302)
+    return RedirectResponse(url=redirect, status_code=302)
 
 
 # ============== Feeds Page ==============
@@ -200,6 +200,38 @@ async def feeds_page(
         "feeds.html",
         {
             "feeds": feeds,
+            "message": message,
+            "error": error,
+        },
+    )
+
+
+@router.get("/feeds/{feed_id}", response_class=HTMLResponse)
+async def feed_detail(
+    request: Request,
+    feed_id: int,
+    db: Annotated[Database, Depends(get_db)],
+    message: str | None = Query(None),
+    error: str | None = Query(None),
+):
+    """Feed detail page."""
+    user_key = get_user_key(request)
+    if not user_key:
+        return RedirectResponse(url="/settings", status_code=302)
+
+    user = await crud.get_user_by_key(db, user_key)
+    if not user:
+        return RedirectResponse(url="/settings", status_code=302)
+
+    feed = await crud.get_feed(db, feed_id)
+    if not feed or feed.user_id != user.id:
+        return RedirectResponse(url="/feeds?error=Feed+not+found", status_code=302)
+
+    return templates.TemplateResponse(
+        request,
+        "feed_detail.html",
+        {
+            "feed": feed,
             "message": message,
             "error": error,
         },
@@ -282,9 +314,9 @@ async def refresh_single_feed(
 
     try:
         count = await refresh_feed(db, feed_id)
-        return RedirectResponse(url=f"/feeds?message=Refreshed,+{count}+new+articles", status_code=302)
+        return RedirectResponse(url=f"/feeds/{feed_id}?message=Refreshed,+{count}+new+articles", status_code=302)
     except (FeedFetchError, FeedParseError):
-        return RedirectResponse(url="/feeds?error=Refresh+failed", status_code=302)
+        return RedirectResponse(url=f"/feeds/{feed_id}?error=Refresh+failed", status_code=302)
 
 
 @router.post("/feeds/refresh")
@@ -333,7 +365,7 @@ async def update_labels(
     label_list = [lbl.strip().lower() for lbl in labels.split(",") if lbl.strip()]
     await crud.set_feed_labels(db, feed_id, label_list)
 
-    return RedirectResponse(url="/feeds?message=Labels+updated", status_code=302)
+    return RedirectResponse(url=f"/feeds/{feed_id}?message=Labels+updated", status_code=302)
 
 
 # ============== Settings Page ==============

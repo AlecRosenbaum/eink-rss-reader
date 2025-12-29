@@ -12,8 +12,10 @@
             <a href="/" class="logo">Reader</a>
             <nav>
                 {% block header_controls %}{% endblock %}
+                {% block header_nav %}
                 <a href="/feeds" class="nav-btn">Feeds</a>
                 <a href="/settings" class="nav-btn">Settings</a>
+                {% endblock %}
             </nav>
         </div>
     </header>
